@@ -1,0 +1,27 @@
+<html>  
+<head> <h5>DOM Methods </h5> </head>  
+<body>  
+    <div class="Class1">  
+        This is a simple class 
+        implementation  
+    </div>  
+    <div class="Class1">  
+        This is a ad class 
+        implementation  
+    </div>  
+    <br><br>
+<script type="text/javascript"> 
+
+var x=document.getElementsByClassName('Class1');  
+var content = x[1].innerHTML;
+document.write("On calling x, it will return an array-like object:<br>"
++content+" by thamizh");  
+function show1()
+{
+    alert(x[0].innerHTML);
+}
+</script>
+
+<button onclick="show1()">click here</button>
+</body>  
+</html>  
