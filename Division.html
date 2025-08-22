@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JavaScript Cookies Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    button {
+      margin: 5px;
+      padding: 10px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    #log {
+      margin-top: 15px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      background-color: #f4f4f4;
+      height: 120px;
+      overflow-y: auto;
+      font-family: monospace;
+    }
+
+    #cookieBox {
+      width: 50px;
+      height: 50px;
+      background-color: orange;
+      margin-top: 20px;
+      transition: transform 0.5s;
+    }
+
+    /* Animation: bounce the box */
+    .bounce {
+      transform: translateY(-20px);
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🍪 JavaScript Cookie Examples</h2>
+
+  <!-- Buttons to perform cookie operations -->
+  <button onclick="setCookieExample()">1. Set Cookie</button>
+  <button onclick="getCookieExample()">2. Get Cookie</button>
+  <button onclick="deleteCookieExample()">3. Delete Cookie</button>
+
+  <!-- Area to display log messages -->
+  <div id="log"></div>
+
+  <!-- Box to animate on each cookie action -->
+  <div id="cookieBox"></div>
+
+  <script>
+    const logDiv = document.getElementById("log");
+    const box = document.getElementById("cookieBox");
+
+    // Function to log messages to the log div
+    function log(msg) {
+      const p = document.createElement("p");
+      p.textContent = msg;
+      logDiv.appendChild(p);
+      logDiv.scrollTop = logDiv.scrollHeight;
+    }
+
+    // Simple animation: bounce the orange box
+    function animateBox() {
+      box.classList.add("bounce");
+      setTimeout(() => {
+        box.classList.remove("bounce");
+      }, 500);
+    }
+
+    // Function to set a cookie
+    function setCookieExample() {
+      // Create a date object for 7 days from now
+      const d = new Date();
+      d.setTime(d.getTime() + (7 * 24 * 60 * 60 * 1000)); // 7 days in milliseconds
+
+      // Set expiration string
+      const expires = "expires=" + d.toUTCString();
+
+      // Set the cookie: name = username, value = JohnDoe
+      document.cookie = "username=JohnDoe; " + expires + "; path=/";
+
+      // Log and animate
+      log("✔ Cookie 'username' set to 'JohnDoe'");
+      animateBox();
+    }
+
+    // Function to get the value of the 'username' cookie
+    function getCookieExample() {
+      const name = "username=";
+
+      // Decode the cookie string (handles special characters)
+      const decodedCookie = decodeURIComponent(document.cookie);
+
+      // Split all cookies by semicolon
+      const cookies = decodedCookie.split(';');
+      let found = false;
+
+      // Loop through cookies to find 'username'
+      for (let c of cookies) {
+        while (c.charAt(0) === ' ') c = c.substring(1); // Remove spaces
+        if (c.indexOf(name) === 0) {
+          const value = c.substring(name.length, c.length);
+          log("✔ Cookie found: username = " + value);
+          found = true;
+          break;
+        }
+      }
+
+      // If not found
+      if (!found) {
+        log("✖ Cookie 'username' not found.");
+      }
+
+      animateBox();
+    }
+
+    // Function to delete the 'username' cookie
+    function deleteCookieExample() {
+      // To delete, set the cookie with an expired date
+      document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+      log("🗑️ Cookie 'username' deleted.");
+      animateBox();
+    }
+  </script>
+</body>
+</html>

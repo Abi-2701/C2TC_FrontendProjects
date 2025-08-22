@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JavaScript Asynchronous with Animation</title>
+  <style>
+    /* Log area styles */
+    #log {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-top: 10px;
+      height: 150px;
+      overflow-y: auto;
+      font-family: monospace;
+      background: #f9f9f9;
+    }
+
+    /* Animated box styles */
+    #box {
+      width: 50px;
+      height: 50px;
+      background-color: steelblue;
+      position: relative;
+      margin-top: 20px;
+    }
+
+    /* Add animation class to move box */
+    .move {
+      animation: moveBox 2s forwards;
+    }
+
+    /* Keyframes for box animation */
+    @keyframes moveBox {
+      from { left: 0; }
+      to { left: 300px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>JavaScript Asynchronous Examples with Animation</h1>
+
+  <!-- Buttons to trigger each async example -->
+  <button onclick="runCallbackExample()">1. Callback</button>
+  <button onclick="runPromiseExample()">2. Promise</button>
+  <button onclick="runAsyncAwaitExample()">3. async/await</button>
+  <button onclick="runSetTimeoutExample()">4. setTimeout</button>
+  <button onclick="runFetchExample()">5. Fetch API</button>
+  <button onclick="runAnimation()">6. Animate Box (Async)</button>
+
+  <!-- Log output will appear here -->
+  <div id="log"></div>
+
+  <!-- Box to animate -->
+  <div id="box"></div>
+
+  <script>
+    // Reference to log display and box
+    const logDiv = document.getElementById('log');
+    const box = document.getElementById('box');
+
+    // Helper function to display messages
+    function log(message) {
+      const p = document.createElement('p');
+      p.textContent = message;
+      logDiv.appendChild(p);
+      logDiv.scrollTop = logDiv.scrollHeight;
+    }
+
+    // 1. Callback Example
+    function runCallbackExample() {
+      log("▶ Callback Example started...");
+
+      // A function that simulates a delay and calls a callback
+      function doTask(callback) {
+        setTimeout(() => {
+          log("✔ Task complete (callback)");
+          callback(); // Callback function called after delay
+        }, 1000);
+      }
+
+      // Calling the function and passing a callback
+      doTask(() => {
+        log("✔ Callback executed.");
+      });
+    }
+
+    // 2. Promise Example
+    function runPromiseExample() {
+      log("▶ Promise Example started...");
+
+      // Function that returns a Promise (resolves after 1 sec)
+      function doTask() {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve("✔ Task complete (promise)");
+          }, 1000);
+        });
+      }
+
+      // Handling the resolved value using .then
+      doTask().then(message => {
+        log(message);
+      });
+    }
+
+    // 3. async/await Example
+    async function runAsyncAwaitExample() {
+      log("▶ async/await Example started...");
+
+      // Function returning a Promise
+      function fetchData() {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve("✔ Data fetched with async/await");
+          }, 1000);
+        });
+      }
+
+      // Using await to wait for result
+      const result = await fetchData();
+      log(result);
+    }
+
+    // 4. setTimeout Example (basic delay function)
+    function runSetTimeoutExample() {
+      log("▶ Waiting 2 seconds...");
+
+      // Logs after 2 seconds
+      setTimeout(() => {
+        log("✔ 2 seconds passed!");
+      }, 2000);
+    }
+
+    // 5. Fetch API Example (real HTTP request)
+    function runFetchExample() {
+      log("▶ Fetching data...");
+
+      // Using fetch to get data from JSONPlaceholder API
+      fetch('https://jsonplaceholder.typicode.com/posts/1')
+        .then(response => response.json())   // Convert response to JSON
+        .then(data => {
+          log(`✔ Title: ${data.title}`);     // Display title from data
+        })
+        .catch(error => {
+          log(`✖ Error: ${error}`);          // Handle fetch errors
+        });
+    }
+
+    // 6. Animate Box using CSS + JavaScript
+    function runAnimation() {
+      log("▶ Animation started...");
+
+      // Remove and re-add class to restart animation
+      box.classList.remove('move');
+      void box.offsetWidth; // Force reflow (resetting animation)
+      box.classList.add('move');
+
+      // Message after animation completes (matches 2s duration)
+      setTimeout(() => {
+        log("✔ Animation complete!");
+      }, 2000);
+    }
+  </script>
+</body>
+</html>

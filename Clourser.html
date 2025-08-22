@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JavaScript Closures Examples</title>
+</head>
+<body>
+  <h1>JavaScript Closures Examples</h1>
+
+  <button onclick="runExample1()">Run Example 1: Basic Closure</button><br><br>
+  <button onclick="runExample2()">Run Example 2: Counter Closure</button><br><br>
+  <button onclick="runExample3()">Run Example 3: Private Variables</button>
+  
+  <script>
+    // Example 1: Basic Closure
+    function runExample1() {
+      console.log("Example 1: Basic Closure");
+
+      function outer() {
+        let name = "JavaScript";
+
+        function inner() {
+          console.log("Hello, " + name);
+        }
+
+        return inner;
+      }
+
+      const greet = outer();
+      greet(); // Output: Hello, JavaScript
+    }
+
+    // Example 2: Closure with Counter
+    let counter = (function () {
+      let count = 0;
+      return function () {
+        count++;
+        console.log("Count:", count);
+      };
+    })();
+
+    function runExample2() {
+      console.log("Example 2: Closure with Counter");
+      counter(); // Output: increments each time
+    }
+
+    // Example 3: Private Variables using Closures
+    const holder = (function () {
+      let secret = "initial secret";
+      return {
+        getSecret: function () {
+          console.log(secret);
+        },
+        setSecret: function (newSecret) {
+          secret = newSecret;
+          console.log("Secret updated.");
+        }
+      };
+    })();
+
+    function runExample3() {
+      console.log("Example 3: Private Variables with Closures");
+      holder.getSecret(); // initial secret
+      holder.setSecret("updated secret");
+      holder.getSecret(); // updated secret
+    }
+  </script>
+</body>
+</html>
